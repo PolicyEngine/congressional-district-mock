@@ -28,7 +28,7 @@ function buildStatesData() {
     const fullName = STATE_NAMES[abbr];
     const legislatorData = ACTUAL_LEGISLATORS[abbr];
 
-    if (legislatorData && legislatorData.representatives.length > 0) {
+    if (legislatorData && legislatorData.representatives.length > 0 && legislatorData.senators.length === 2) {
       statesData[fullName] = {
         name: fullName,
         abbr: abbr,
