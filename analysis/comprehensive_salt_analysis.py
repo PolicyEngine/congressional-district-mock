@@ -103,9 +103,24 @@ def main():
         baseline_after_tax_income = cd_baseline.calculate("household_net_income", period=2025)
 
         # Poverty-related variables
-        baseline_spm_poverty = cd_baseline.calculate("spm_unit_is_in_poverty", period=2025)
-        baseline_poverty_gap = cd_baseline.calculate("spm_unit_poverty_gap", period=2025)
-        spm_poverty_threshold = cd_baseline.calculate("spm_unit_poverty_threshold", period=2025)
+        # Try different possible SPM poverty variable names
+        try:
+            baseline_spm_poverty = cd_baseline.calculate("spm_unit_is_in_poverty", period=2025)
+        except ValueError:
+            try:
+                baseline_spm_poverty = cd_baseline.calculate("in_poverty_spm", period=2025)
+            except ValueError:
+                baseline_spm_poverty = cd_baseline.calculate("household_is_in_poverty_spm", period=2025)
+
+        try:
+            baseline_poverty_gap = cd_baseline.calculate("spm_unit_poverty_gap", period=2025)
+        except ValueError:
+            baseline_poverty_gap = cd_baseline.calculate("poverty_gap_spm", period=2025)
+
+        try:
+            spm_poverty_threshold = cd_baseline.calculate("spm_unit_poverty_threshold", period=2025)
+        except ValueError:
+            spm_poverty_threshold = cd_baseline.calculate("spm_threshold", period=2025)
 
         # Demographics for analysis
         household_size = cd_baseline.calculate("household_count_people", period=2025)
@@ -178,8 +193,19 @@ def main():
         reform_income = cd_reformed.calculate("household_net_income", period=2025)
         reform_tax = cd_reformed.calculate("income_tax", period=2025)
         reform_after_tax_income = cd_reformed.calculate("household_net_income", period=2025)
-        reform_spm_poverty = cd_reformed.calculate("spm_unit_is_in_poverty", period=2025)
-        reform_poverty_gap = cd_reformed.calculate("spm_unit_poverty_gap", period=2025)
+        # Try different possible SPM poverty variable names for reform
+        try:
+            reform_spm_poverty = cd_reformed.calculate("spm_unit_is_in_poverty", period=2025)
+        except ValueError:
+            try:
+                reform_spm_poverty = cd_reformed.calculate("in_poverty_spm", period=2025)
+            except ValueError:
+                reform_spm_poverty = cd_reformed.calculate("household_is_in_poverty_spm", period=2025)
+
+        try:
+            reform_poverty_gap = cd_reformed.calculate("spm_unit_poverty_gap", period=2025)
+        except ValueError:
+            reform_poverty_gap = cd_reformed.calculate("poverty_gap_spm", period=2025)
         reform_disposable_income = cd_reformed.calculate("household_net_income", period=2025)
         reform_benefits = cd_reformed.calculate("household_benefits", period=2025)
 
